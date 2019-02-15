@@ -5,6 +5,15 @@ const std = {
       res.push(i<first?undefined:v);
     }
     return res;
+  },
+  generate: (first, last, g)=>{
+    let res = [], i = 0;
+    while (first < last) {
+      res[i++] = first;
+      console.log('generate first, last -> ', first, last);
+      first = g(first);
+    }
+    return res;
   }
 };
 
@@ -18,9 +27,21 @@ const mark_sieve = (first, last, factor, res = [])=>{
     res[first] = false;
   }
 };
+const getSieves = (nums, flags)=>{
+  let i = 0;
+  return flags.reduce((r, v)=>{
+    v && r.push(nums[i]);
+    i++;
+    return r;
+  }, []).join(', ');
+};
 (()=>{ //test
-  const res = std.fill(0, 99, true);
-  mark_sieve(0,99,3,res)
+  const nums = std.generate(1, 13, v=>++v);
+  let flags = std.fill(nums[0], nums[nums.length - 1], true);
+  mark_sieve(nums[0], nums[nums.length - 1], 2, flags);
+  mark_sieve(nums[0], nums[nums.length - 1], 3, flags);
+  console.log(getSieves(nums, flags));
+  console.log('\n', nums, '\n', flags);
 })();
 
 
