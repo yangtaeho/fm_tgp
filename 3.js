@@ -82,3 +82,17 @@ const sift1 = (_first, n)=>{
     index_square = 2*i*(i + 3) + 3;
   }
 };
+
+
+const sift = (first, n)=>{
+  let last = first + n;
+  std.fill(first, last, true);
+  let i = 0;
+  let index_square = 3;
+  let factor = 3;
+  while (index_square < n) {
+    // index_square = 2i^2 + 6i + 3으로 고정
+    // factor = 2i + 3으로 고정
+    
+  }
+}
