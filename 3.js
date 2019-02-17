@@ -114,6 +114,12 @@ const sift = (first, n)=>{
   while (index_square < n) {
     // index_square = 2i^2 + 6i + 3으로 고정
     // factor = 2i + 3으로 고정
-    
+    if (first[i]) {     // 해당 수가 소수인 경우
+      mark_sieve(first + index_square, last, factor);
+    }
+    ++i;
+    index_square += factor;
+    factor += Number(2);
+    index_square += factor;
   }
 }
