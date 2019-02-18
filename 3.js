@@ -2,7 +2,9 @@ const std = {
   fill: (first, last, v)=>{
     let res = [];
     for (let i = 0; i < last; i ++) {
-      res.push(i<first?undefined:v);
+      // res.push(i<first?undefined:v);
+      res.push(i<first?!v:v);
+      // res.push(v);
     }
     return res;
   },
@@ -27,17 +29,17 @@ const std = {
  */
 const mark_sieve = (first, last, factor, flags = [])=>{
   // assert(first != last)
-  let i = 0;
   //*first = false;
-  flags[i++] = false;
+  flags[first-1] = false;
   while (last - first > factor) {
     first = first + factor;
     //*first = false;
-    flags[i++] = false;
+    flags[first-1] = false;
   }
 };
 
 // 테스트용 함수
+// const getIdx = (first, list)=>{for ( var v of list.entries() ) if (v[1] == first) return v[0];}
 const getSieves = (flags)=>{
   let i = 0;
   return flags.reduce((r, v)=>{
@@ -46,58 +48,75 @@ const getSieves = (flags)=>{
     return r;
   }, []).join(', ');
 };
+const getSievesEx = (flags, nums)=>{
+  let i = 0;
+  return flags.reduce((r, v)=>{
+    i++;
+    v && r.push(i), console.log(`${i} ${nums[i]}`);
+    return r;
+  }, []).join(', ');
+};
 (()=>{ //test
-  let flags = std.fill(0, 43, true);
-  mark_sieve(4, 43, 2, flags);
-  mark_sieve(6, 43, 3, flags);
+  let flags = std.fill(0, 80, true);
+  //const nums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43];
+// const nums = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98]
+//     .filter(v=> v != 2 && v%2 != 0);
+const nums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 81];
+  // mark_sieve(4, 99, 2, flags, nums);
+  // mark_sieve(9, 99, 3, flags, nums);
+  // mark_sieve(10, 99, 5, flags, nums);
+  // mark_sieve(49, 99, 7, flags, nums);
+  //mark_sieve(4, 99, 2, flags, nums);
+  mark_sieve(4, 81, 2, flags, nums);
+  mark_sieve(9, 81, 3, flags, nums);
+  mark_sieve(12, 81, 5, flags, nums);
+  mark_sieve(24, 81, 7, flags, nums);
+  mark_sieve(40, 81, 9, flags, nums);
+  // 1 		 12 99 5
+  // 2 		 24 99 7
+  // 3 		 40 99 9
+  // 4 		 60 99 11
+  // 5 		 84 99 13
   console.log('테스트', '\n', flags, '\n', getSieves(flags));
+  // console.log('테스트', '\n', flags, '\n', getSievesEx(flags, nums));
 })();
 
-
-const my_ratio = (x, y)=>{
-  // assert(y != 0.0);
-  return x /y ;
-};
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-const sift0 = (_first, n, nums)=>{
-  let flags = std.fill(_first, _first + n, true);
+/**
+ * 
+ * @param {*} first 작업을 시작할 위치
+ * @param {*} n 
+ * @param {*} flags 
+ * @param {*} nums 
+ */
+const sift0 = (first, n, flags, nums)=>{
+  //console.log('debug flags 1', '\n', flags);
   //std.fill(_first, _first + n, true);
   let i = 0;
   let index_square = 3;
   while (index_square < n) {
     // index_square = 2i^2 + 6i + 3으로 고정
-    if (flags[i]) {
-      mark_sieve(_first + index_square,
-          _first + n,
-          i + i + 3, flags);
+    // console.log('debug', i, flags[i], nums[i], index_square < n, index_square, n);
+    if (flags[i]) {         // 해당 수가 소수인 경우
+      console.log('debug', i, '\t\t', first + index_square, first + n, i + i + 3);
+      mark_sieve(first + index_square,
+              first + n,    // last
+              i + i + 3,    // factor
+              flags, nums);
     }
     ++i;
     index_square = 2*i*(i + 3) + 3;
-    console.log('debug', i, _first, n, index_square, nums[i], flags[i]);
+    // console.log('debug', 'i', i, 'nums[i]', nums[i], 'flags[i]', flags[i], '_first', first, 'index_square', index_square);
   }
-  return flags; // 추가함...
+  // console.log('debug flags 2', '\n', flags);
+  // return flags; // 추가함...
 };
 (()=>{
-  const nums = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98];
-  let flags = sift0(0, 98, nums);
-  console.log('테스트 2', '\n', flags, '\n', getSieves(flags));
+  let flags = std.fill(0, 80, true);
+  // const nums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53];
+  const nums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81];
+  sift0(1, 81, flags, nums);
+  console.log('테스트 2', '\n', getSieves(flags));
+  // console.log('테스트 2', '\n', getSievesEx(flags, nums));
 })();
 
 
