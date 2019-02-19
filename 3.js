@@ -39,16 +39,7 @@ const mark_sieve = (first, last, factor, flags = [])=>{
 };
 
 // 테스트용 함수
-// const getIdx = (first, list)=>{for ( var v of list.entries() ) if (v[1] == first) return v[0];}
 const getSieves = (flags)=>{
-  let i = 0;
-  return flags.reduce((r, v)=>{
-    v && r.push(2*i+3);
-    i++;
-    return r;
-  }, []).join(', ');
-};
-const getSievesEx = (flags, nums)=>{
   let i = 0;
   return flags.reduce((r, v)=>{
     v && r.push(2*i+3);
@@ -58,33 +49,17 @@ const getSievesEx = (flags, nums)=>{
 };
 (()=>{ //test
   let flags = std.fill(0, 81, true);
-  //const nums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43];
-  // const nums = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98]
-  //     .filter(v=> v != 2 && v%2 != 0);
-  const nums = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81];
-  // mark_sieve(4, 81, 2, flags, nums);
-  // mark_sieve(9, 81, 3, flags, nums);
-  // mark_sieve(10, 81, 5, flags, nums);
-  // mark_sieve(49, 81, 7, flags, nums);
   mark_sieve(3, 81, 3, flags);
   mark_sieve(11, 81, 5, flags);
   mark_sieve(23, 81, 7, flags);
   mark_sieve(59, 81, 9, flags);
-  // 1 		 12 99 5
-  // 2 		 24 99 7
-  // 3 		 40 99 9
-  // 4 		 60 99 11
-  // 5 		 84 99 13
-  console.log('테스트', '\n', flags, '\n', getSieves(flags));
-  // console.log('테스트', '\n', flags, '\n', getSievesEx(flags));
+  console.log('테스트 mark_sieve', '\n', getSieves(flags));
 })();
 
 /**
  * 
  * @param {*} first 작업을 시작할 위치
- * @param {*} n 
- * @param {*} flags 
- * @param {*} nums 
+ * @param {*} n 테이블의 크기
  */
 const sift0 = (first, n)=>{
   //console.log('debug flags 1', '\n', flags);
@@ -110,15 +85,8 @@ const sift0 = (first, n)=>{
   return flags; // 추가함...
 };
 (()=>{
-  // // let flags = std.fill(0, 80, true);
-  // // const nums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53];
-  // const nums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81];
-  // // sift0(0, 81, flags);
-  // let flags = sift0(0, 81, nums);
-  // console.log('테스트 2', '\n', getSieves(flags));
   let flags = sift0(0, 81);
-  console.log('테스트 2', '\n', getSieves(flags));
-  // console.log('테스트 2', '\n', getSievesEx(flags, nums));
+  console.log('테스트 sift0', '\n', getSieves(flags));
 
   // https://gist.github.com/haneulai/b3b02e055b7b8314c9430355549b3301
   // 호스트 코드 참조..
@@ -137,44 +105,52 @@ const sift0 = (first, n)=>{
 })();
 
 
-const sift1 = (_first, n)=>{
+const sift1 = (first, n)=>{
   let last = first + n;
-  std.fill(first, last, true);
+  let flags = std.fill(first, last, true);
   let i = 0;
   let index_square = 3;
   let factor = 3;
   while (index_square < n) {
     // index_square = 2i^2 + 6i + 3으로 고정
-    if (first[i]) {
-      mark_sieve(first + index_square,
-          last,
-          factor, first);
+    if (flags[i]) {
+      mark_sieve(first + index_square, last, factor, flags);
     }
     ++i;
     factor = i + i + 3;
     index_square = 2*i*(i + 3) + 3;
   }
+  return flags; // 추가함...
 };
+(()=>{
+  let flags = sift1(0, 81);
+  console.log('테스트 sift1', '\n', getSieves(flags));
+})();
 
 
 const sift = (first, n)=>{
   let last = first + n;
-  std.fill(first, last, true);
+  let flags = std.fill(first, last, true);
   let i = 0;
   let index_square = 3;
   let factor = 3;
   while (index_square < n) {
     // index_square = 2i^2 + 6i + 3으로 고정
     // factor = 2i + 3으로 고정
-    if (first[i]) {     // 해당 수가 소수인 경우
-      mark_sieve(first + index_square, last, factor);
+    if (flags[i]) {     // 해당 수가 소수인 경우
+      mark_sieve(first + index_square, last, factor, flags);
     }
     ++i;
     index_square += factor;
-    factor += Number(2);
+    factor += 2;
     index_square += factor;
   }
-}
+  return flags; // 추가함...
+};
+(()=>{
+  let flags = sift(0, 81);
+  console.log('테스트 sift', '\n', getSieves(flags));
+})();
 
 
 // 3.4
@@ -182,11 +158,18 @@ const sift = (first, n)=>{
 
 // }
 // line_segment gcm = (line_segment a, line_segment b) => {}
-// const gcm = (a, b) => {
-//   if (a==b) return a;
-//   if (b < a) return gcm(a - b, b);
-//   /* if (a < b)  */ return gcm(a, b - a);
-// };
+const gcm = (a, b,step = 0) => {
+  console.log('debug step ==>', step, a, b);
+  if (a==b) return console.log('last step ==>', ++step), a;
+  if (b < a) return gcm(a - b, b, ++step);
+  /* if (a < b)  */ return gcm(a, b - a, ++step);
+};
 // line segment 가 끝없이 들어가게 된다.
+console.log('gcm',gcm(128,64));
+console.log('gcm',gcm(16,64));
+console.log('gcm',gcm(151,157));
+// console.log('gcm',gcm(16,65535)); //느리다..
+// console.log('gcm',gcm(16,65536));
+console.log('gcm',gcm(256,65536));
 
 
